@@ -4,6 +4,8 @@ const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 
+const authRouter = require('./routers/authRouter');
+
 // Configure app...
 const app = express();
 
@@ -29,13 +31,7 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Configure routers
-
-const router = express.Router();
-router.get("/",(req, res, next) => {
-  res.status(200).send({"Hello from the server" : "👋"});
-});
-
-app.use('/', router);
+app.use('/api/v1/auth', authRouter);
 
 // Export app
 module.exports = app;
